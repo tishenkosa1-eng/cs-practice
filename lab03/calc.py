@@ -7,4 +7,4 @@ U = a * b
 
 print(S)
 print(V)
-print(U)
+print(U)# safe division 
