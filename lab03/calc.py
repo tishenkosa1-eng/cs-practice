@@ -8,3 +8,6 @@ U = a * b
 print(S)
 print(V)
 print(U)
+
+div = n1 / n2
+print(f'{n1} / {n2} = {div}')
