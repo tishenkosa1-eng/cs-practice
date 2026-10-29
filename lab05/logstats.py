@@ -10,13 +10,15 @@ def parse_event(line: str) -> dict:
     return {"time": time, "level": level, "message": message}
 
 def count_levels(lines) -> dict:
-    counts = {"BROKEN": 0, "DEBUG": 0, "INFO": 0, "WARNING": 0, "ERROR": 0}
+    counts = {}
     for line in lines:
         if not line.strip(): continue
         try:
             event = parse_event(line)
-            counts[event["level"]] += 1
-        except ValueError: counts["BROKEN"] += 1
+            lvl = event["level"]
+            counts[lvl] = counts.get(lvl, 0) + 1
+        except ValueError:
+            counts["BROKEN"] = counts.get("BROKEN", 0) + 1
     return counts
 
 def top_errors(lines, n: int) -> list:
@@ -33,10 +35,14 @@ def top_errors(lines, n: int) -> list:
     return [list(item) for item in sorted_errors[:n]]
 
 def format_report(counts: dict, errors: list) -> str:
-    lines = ["Log report", ""]
-    for lvl in sorted(counts.keys()): lines.append(f"{lvl}: {counts[lvl]}")
+    title = chr(1054)+chr(1090)+chr(1095)+chr(1105)+chr(1090)+" "+chr(1087)+chr(1086)+" "+chr(1078)+chr(1103)+chr(1088)+chr(1085)+chr(1072)+chr(1083)+chr(1091)
+    err_label = chr(1063)+chr(1072)+chr(1089)+chr(1090)+chr(1099)+chr(1077)+" "+chr(1086)+chr(1096)+chr(1080)+chr(1073)+chr(1082)+chr(1080)+":"
+    lines = [title, ""]
+    for lvl in sorted(counts.keys()):
+        lines.append(f"{lvl}: {counts[lvl]}")
     lines.append("")
-    lines.append("Frequent errors:")
-    for msg, count in errors: lines.append(f" - {msg} - {count}")
+    lines.append(err_label)
+    for msg, count in errors:
+        lines.append(f" - {msg} - {count}")
     lines.append("")
     return "\n".join(lines)
