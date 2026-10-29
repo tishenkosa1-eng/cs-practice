@@ -1,0 +1,10 @@
+Log report
+
+BROKEN: 0
+DEBUG: 0
+ERROR: 2
+INFO: 1
+WARNING: 1
+
+Frequent errors:
+ - Нет доступа к каталогу /var/log - 2
